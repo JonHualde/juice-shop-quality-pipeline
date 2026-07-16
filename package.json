@@ -1,0 +1,21 @@
+{
+  "name": "qa-automation-blueprint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:api",
+    "test:api": "newman run postman/collections/qa-automation-blueprint.postman_collection.json --environment postman/environments/local-juice-shop.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.1",
+    "dotenv": "^17.4.2",
+    "newman": "^6.2.2",
+    "typescript": "^7.0.2"
+  }
+}

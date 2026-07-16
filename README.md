@@ -15,6 +15,17 @@ Build a release confidence system that combines:
 ## Status
 
 - OWASP Juice Shop runs locally from a pinned Docker image.
-- Two authentication API contracts run with Postman and Newman.
-- Current result: 2 requests, 8 assertions, 0 failures.
+- The Postman collection creates isolated test data before validating authentication contracts.
+- Current result: 4 requests, 16 assertions, 0 failures.
 - Playwright E2E coverage and GitHub Actions CI are planned next.
+
+## Run Locally
+
+```bash
+npm install
+docker compose up -d --wait
+npm test
+docker compose down
+```
+
+The committed Postman environment contains only the local base URL. The collection discovers the registration question and generates a unique disposable user in memory for every Newman run.

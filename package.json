@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test:api",
-    "test:api": "newman run postman/collections/qa-automation-blueprint.postman_collection.json --environment postman/environments/local-juice-shop.json"
+    "test:api": "newman run postman/collections/qa-automation-blueprint.postman_collection.json --environment postman/environments/local-juice-shop.postman_environment.json"
   },
   "keywords": [],
   "author": "",

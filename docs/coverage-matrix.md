@@ -4,9 +4,10 @@ This matrix connects product promises to risks, automated checks, and evidence. 
 
 | Area | Product promise | Main risk | Layer | Planned check | Tags | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| Environment | The application can be started consistently | Tests target an unavailable or drifting application version | Docker | Start `bkimminich/juice-shop:v20.1.1` and expose port `3000` | Infrastructure | Verified manually |
-| Login success | A registered customer can authenticate | Valid customers cannot access their account or purchase journey | API | Assert `200`, JSON response, non-empty token, expected email, and numeric basket ID | `@api @critical @smoke` | Contract discovered |
-| Login rejection | Invalid credentials are refused | Unauthorized users gain access or receive a misleading response | API | Assert `401` and exact error response for invalid credentials | `@api @critical @regression` | Contract discovered |
+| Environment | The application can be started consistently | Tests target an unavailable or drifting application version | Docker | Start `bkimminich/juice-shop:v20.1.1`, expose port `3000`, and wait for the version endpoint | Infrastructure | Automated |
+| Test user setup | Authentication tests have isolated data | Fresh containers or repeated runs break because an account is missing or duplicated | API | Discover a security question and register a unique disposable customer | `@api @setup @critical` | Automated |
+| Login success | A registered customer can authenticate | Valid customers cannot access their account or purchase journey | API | Assert `200`, JSON response, non-empty token, expected email, and numeric basket ID | `@api @critical @smoke` | Automated |
+| Login rejection | Invalid credentials are refused | Unauthorized users gain access or receive a misleading response | API | Assert `401` and exact error response for invalid credentials | `@api @critical @regression` | Automated |
 | Token authorization | Authentication grants usable authorization | Login returns a token that cannot access protected resources | API | Call one protected endpoint with the issued token | `@api @critical @smoke` | Discovery pending |
 | Authenticated UI | A valid customer sees an authenticated account state | API login succeeds but the browser state is unusable | E2E | Verify `/#/`, `All Products`, account email, and authenticated menu commands | `@e2e @critical @smoke` | Acceptance criteria defined |
 | Logout UI | A customer can return to an anonymous browser state | Authentication state remains visible after logout | E2E | Verify email and authenticated commands disappear and `Login` is available | `@e2e @critical @smoke` | Acceptance criteria defined |

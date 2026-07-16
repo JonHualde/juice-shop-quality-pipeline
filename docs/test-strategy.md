@@ -82,7 +82,8 @@ Examples:
 - `.env.example` documents required variable names without credentials.
 - Only disposable test identities are used.
 - Tokens and passwords must not appear in source code, committed Postman environments, or CI artifacts.
-- Automated setup should eventually create unique users to avoid shared-state collisions.
+- The API collection creates a unique disposable user for each execution.
+- Generated credentials exist only in Newman's in-memory environment and are not written back to the environment file.
 
 ## Execution Model
 
@@ -94,7 +95,7 @@ The intended execution model is:
 4. Run regression coverage on the main branch or on demand.
 5. Publish concise reports and failure diagnostics in CI.
 
-Commands and CI quality gates will be added when the runners are implemented.
+The API runner is available through `npm run test:api`. CI quality gates will be added with the browser suite.
 
 ## Release Signal
 
@@ -103,5 +104,5 @@ A release candidate is not trusted when a `@critical` test fails. A passing suit
 ## Known Limitations
 
 - The application is intentionally vulnerable; this project evaluates automation architecture rather than security posture.
-- Current scenarios have been discovered manually but are not automated yet.
+- API setup and authentication contracts run locally; browser scenarios and token authorization are not automated yet.
 - Browser logout currently proves a return to anonymous UI state; it does not by itself prove server-side token invalidation.

@@ -3,3 +3,19 @@ services:
     image: bkimminich/juice-shop:v20.1.1
     ports:
       - "3000:3000"
+    healthcheck:
+      test:
+        - CMD
+        - /nodejs/bin/node
+        - -e
+        - >-
+          fetch('http://127.0.0.1:3000/rest/admin/application-version')
+          .then(async response => {
+            const body = await response.json();
+            process.exit(response.status === 200 && body.version === '20.1.1' ? 0 : 1);
+          })
+          .catch(() => process.exit(1));
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s

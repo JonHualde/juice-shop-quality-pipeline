@@ -15,9 +15,11 @@ Build a release confidence system that combines:
 ## Status
 
 - OWASP Juice Shop runs locally from a pinned Docker image.
-- The Postman collection creates isolated test data before validating authentication contracts.
-- Current result: 4 requests, 16 assertions, 0 failures.
-- Playwright E2E coverage and GitHub Actions CI are planned next.
+- The Postman collection creates isolated test data before validating authentication and authorization contracts.
+- API result: 7 requests, 27 assertions, 0 failures.
+- E2E result: 4 Playwright tests covering authentication, logout, invalid credentials, and account navigation.
+- Playwright fixtures create a registered user per test and provide reusable page objects and UI components.
+- GitHub Actions CI is the next milestone.
 
 ## Run Locally
 
@@ -29,3 +31,16 @@ docker compose down
 ```
 
 The committed Postman environment contains only the local base URL. The collection discovers the registration question and generates a unique disposable user in memory for every Newman run.
+
+Local Playwright setup reads `BASE_URL`, `SECURITY_QUESTION`, and `SECURITY_QUESTION_ANSWER` from the ignored `.env` file. See `.env.example` for the required keys.
+
+## Test Commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm test` | Run API tests, then E2E tests |
+| `npm run test:api` | Run the Postman collection with Newman |
+| `npm run test:e2e` | Run the Playwright suite |
+| `npm run test:e2e:ui` | Open Playwright UI mode |
+| `npm run test:e2e:headed` | Run E2E tests with a visible browser |
+| `npm run report:e2e` | Open the latest Playwright HTML report |

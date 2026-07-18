@@ -21,6 +21,8 @@ The objective is not exhaustive coverage. The suite must provide fast, understan
 - Docker Compose startup and local application availability
 - Successful and rejected login API contracts
 - Browser login, authenticated account state, and logout
+- Rejected browser login with a valid account and invalid password
+- Representative account navigation through Orders & Payment and Privacy & Security
 - Authentication token usage against a protected endpoint
 - Test classification with layer, risk, and execution-suite tags
 
@@ -29,7 +31,6 @@ The objective is not exhaustive coverage. The suite must provide fast, understan
 - Product discovery and catalog availability
 - Basket creation and item management
 - Checkout and order confirmation
-- Broader account navigation
 - CI execution and test artifacts
 
 ### Out of scope
@@ -50,9 +51,11 @@ API tests validate status codes, response content types, stable response propert
 
 ### End-to-end tests
 
-Playwright validates browser-visible business outcomes. Initial coverage confirms that a valid user can log in, observe an authenticated account menu, and return to an anonymous state after logout.
+Playwright validates browser-visible business outcomes. Current coverage confirms that a valid user can log in, observe an authenticated account menu, return to an anonymous state after logout, and reach representative account destinations. A negative scenario verifies that an invalid password is rejected without leaving the login page.
 
 E2E tests should assert meaningful UI signals and routes. They should not duplicate every API assertion or rely on arbitrary element counts.
+
+Each E2E test receives a uniquely registered customer through a test-scoped Playwright fixture. Page objects contain browser interactions, while assertions remain in the specs so the expected product outcome stays explicit.
 
 ### Environment checks
 
@@ -95,7 +98,7 @@ The intended execution model is:
 4. Run regression coverage on the main branch or on demand.
 5. Publish concise reports and failure diagnostics in CI.
 
-The API runner is available through `npm run test:api`. CI quality gates will be added with the browser suite.
+The API runner is available through `npm run test:api`, the browser runner through `npm run test:e2e`, and `npm test` runs both layers sequentially. CI quality gates and artifact publication remain to be added.
 
 ## Release Signal
 
@@ -104,5 +107,7 @@ A release candidate is not trusted when a `@critical` test fails. A passing suit
 ## Known Limitations
 
 - The application is intentionally vulnerable; this project evaluates automation architecture rather than security posture.
-- API setup and authentication contracts run locally; browser scenarios and token authorization are not automated yet.
+- API and browser suites currently run locally but are not yet enforced in CI.
+- Anonymous access to order history returns `500` instead of an authorization response; the suite records this as a known issue.
 - Browser logout currently proves a return to anonymous UI state; it does not by itself prove server-side token invalidation.
+- Newman currently introduces transitive dependency audit findings; forced dependency upgrades are not applied without compatibility validation.

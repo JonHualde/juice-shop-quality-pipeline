@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "1b165cda-13d7-4e40-a53f-b8d92d6bc23b",
-		"name": "QA Automation Blueprint API",
+		"name": "Juice Shop Quality Pipeline API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "13669350"
 	},

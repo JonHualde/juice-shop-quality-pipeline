@@ -1,4 +1,4 @@
-# QA Automation Blueprint
+# Juice Shop Quality Pipeline
 
 Portfolio project demonstrating a pragmatic QA automation architecture for [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/).
 
@@ -19,7 +19,7 @@ Build a release confidence system that combines:
 - API result: 7 requests, 27 assertions, 0 failures.
 - E2E result: 4 Playwright tests covering authentication, logout, invalid credentials, and account navigation.
 - Playwright fixtures create a registered user per test and provide reusable page objects and UI components.
-- GitHub Actions CI is the next milestone.
+- GitHub Actions runs API and E2E quality gates in parallel with manual suite selection and retained artifacts.
 
 ## Run Locally
 

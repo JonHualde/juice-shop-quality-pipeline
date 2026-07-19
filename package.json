@@ -1,11 +1,11 @@
 {
-  "name": "qa-automation-blueprint",
+  "name": "juice-shop-quality-pipeline",
   "version": "1.0.0",
-  "description": "",
+  "description": "Automated QA pipeline for OWASP Juice Shop with API and E2E quality gates.",
   "main": "index.js",
   "scripts": {
     "test": "npm run test:api && npm run test:e2e",
-    "test:api": "newman run postman/collections/qa-automation-blueprint.postman_collection.json --environment postman/environments/local-juice-shop.postman_environment.json",
+    "test:api": "newman run postman/collections/juice-shop-quality-pipeline.postman_collection.json --environment postman/environments/local-juice-shop.postman_environment.json",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",

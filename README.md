@@ -1,5 +1,7 @@
 # Juice Shop Quality Pipeline
 
+[![QA](https://github.com/JonHualde/juice-shop-quality-pipeline/actions/workflows/qa.yml/badge.svg)](https://github.com/JonHualde/juice-shop-quality-pipeline/actions/workflows/qa.yml)
+
 Portfolio project demonstrating a pragmatic QA automation architecture for [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/).
 
 ## Objective
@@ -44,3 +46,11 @@ Local Playwright setup reads `BASE_URL`, `SECURITY_QUESTION`, and `SECURITY_QUES
 | `npm run test:e2e:ui` | Open Playwright UI mode |
 | `npm run test:e2e:headed` | Run E2E tests with a visible browser |
 | `npm run report:e2e` | Open the latest Playwright HTML report |
+
+## Documentation
+
+- [Test strategy](docs/test-strategy.md)
+- [Coverage matrix](docs/coverage-matrix.md)
+- [Definition of Done](docs/definition-of-done.md)
+- [How to run](docs/how-to-run.md)
+- [Risks and limits](docs/risks-and-limits.md)

@@ -3,7 +3,7 @@ import { expect, test } from "../fixtures/test.fixture";
 test.describe("Authentication", () => {
   test.beforeEach(async ({ loginPage, startupDialogs }) => {
     await loginPage.goto();
-    await startupDialogs.dismissIfVisible();
+    await startupDialogs.dismissAll();
   });
 
   test("A user can sign in and sign out - @e2e @critical @smoke", async ({

@@ -13,7 +13,7 @@ export class StartupDialogsComponent {
     });
   }
 
-  async dismissIfVisible(): Promise<void> {
+  async dismissAll(): Promise<void> {
     // isVisible() does not wait, so it raced with the Angular dialog rendering
     // and left the modal backdrop in place, intercepting every later click.
     // Juice Shop always shows both on a fresh browser context, so wait for them.

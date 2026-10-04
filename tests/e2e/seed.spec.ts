@@ -12,7 +12,7 @@ test.describe("Seed", () => {
     startupDialogs,
   }) => {
     await loginPage.goto();
-    await startupDialogs.dismissIfVisible();
+    await startupDialogs.dismissAll();
     await loginPage.signIn(registeredUser);
 
     await expect(page).toHaveURL(/\/#\/search$/);

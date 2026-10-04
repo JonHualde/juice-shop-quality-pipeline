@@ -2,50 +2,34 @@
 // seed: tests/e2e/seed.spec.ts
 import { expect, test } from "../../fixtures/test.fixture";
 
+const PRODUCT = "Apple Juice (1000ml)";
+
 test.describe("Basket", () => {
   test("Add a product to the basket - @e2e @critical", async ({
-    loginPage,
+    basketPage,
+    catalogPage,
     page,
-    registeredUser,
-    startupDialogs,
+    signedInCustomer,
   }) => {
-    await loginPage.goto();
-    await startupDialogs.dismissAll();
-    await loginPage.signIn(registeredUser);
+    // 1. Starting from the seed state, confirm the basket badge shows 0.
+    await expect(basketPage.cartButton).toContainText("0");
 
-    const cartButton = page.getByRole("button", {
-      name: "Show the shopping cart",
-    });
+    // 2. On the catalog, click 'Add to Basket' on the product card (1.99¤).
+    await catalogPage.addToBasket(PRODUCT);
+    await expect(catalogPage.addedConfirmation(PRODUCT)).toBeVisible();
+    await expect(basketPage.cartButton).toContainText("1");
 
-    // 1. Starting from the seed state, confirm the basket badge next to 'Your Basket' shows 0.
-    await expect(cartButton).toContainText("0");
-
-    // 2. On the catalog, click 'Add to Basket' on the 'Apple Juice (1000ml)' card (1.99¤).
-    await page
-      .getByRole("article")
-      .filter({ hasText: "Apple Juice (1000ml)" })
-      .getByRole("button", { name: "Add to Basket" })
-      .click();
-    await expect(
-      page.getByText("Placed Apple Juice (1000ml) into basket."),
-    ).toBeVisible();
-    await expect(cartButton).toContainText("1");
-
-    // 3. Click 'Show the shopping cart'.
-    await cartButton.click();
+    // 3. Open the basket.
+    await basketPage.open();
     await expect(page).toHaveURL(/\/#\/basket$/);
-    await expect(
-      page.getByRole("heading", {
-        name: `Your Basket (${registeredUser.email})`,
-      }),
-    ).toBeVisible();
-    const rows = page.getByRole("row").filter({ hasText: "Apple Juice" });
-    await expect(rows).toHaveCount(1);
-    const cells = rows.getByRole("cell");
-    await expect(cells.nth(1)).toHaveText("Apple Juice (1000ml)");
-    await expect(cells.nth(2)).toHaveText("1");
-    await expect(cells.nth(3)).toHaveText("1.99¤");
-    await expect(page.getByText("Total Price: 1.99¤")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Checkout" })).toBeEnabled();
+    await expect(basketPage.heading(signedInCustomer.email)).toBeVisible();
+
+    const row = basketPage.row(PRODUCT);
+    await expect(row.row).toHaveCount(1);
+    await expect(row.name).toHaveText(PRODUCT);
+    await expect(row.quantity).toHaveText("1");
+    await expect(row.price).toHaveText("1.99¤");
+    await expect(basketPage.total("1.99¤")).toBeVisible();
+    await expect(basketPage.checkoutButton).toBeEnabled();
   });
 });

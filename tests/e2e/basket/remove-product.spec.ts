@@ -2,51 +2,38 @@
 // seed: tests/e2e/seed.spec.ts
 import { expect, test } from "../../fixtures/test.fixture";
 
+const PRODUCT = "Apple Juice (1000ml)";
+
 test.describe("Basket", () => {
   test("Remove a product from the basket - @e2e @critical", async ({
-    loginPage,
+    basketPage,
+    catalogPage,
     page,
-    registeredUser,
-    startupDialogs,
+    signedInCustomer: _customer,
   }) => {
-    await loginPage.goto();
-    await startupDialogs.dismissAll();
-    await loginPage.signIn(registeredUser);
-
-    const cartButton = page.getByRole("button", {
-      name: "Show the shopping cart",
-    });
-
-    // 1. From the seed state, add 'Apple Juice (1000ml)', open the basket, and increase quantity to 2 (total 3.98¤).
-    await page
-      .getByRole("article")
-      .filter({ hasText: "Apple Juice (1000ml)" })
-      .getByRole("button", { name: "Add to Basket" })
-      .click();
-    await expect(
-      page.getByText("Placed Apple Juice (1000ml) into basket."),
-    ).toBeVisible();
-    await cartButton.click();
+    // 1. From the seed state, add the product, open the basket, raise the quantity to 2.
+    await catalogPage.addToBasket(PRODUCT);
+    await expect(catalogPage.addedConfirmation(PRODUCT)).toBeVisible();
+    await basketPage.open();
     await expect(page).toHaveURL(/\/#\/basket$/);
 
-    const row = page.getByRole("row").filter({ hasText: "Apple Juice" });
-    const quantityCell = row.getByRole("cell").nth(2);
-    await quantityCell.getByRole("button").last().click();
-    await expect(quantityCell).toHaveText("2");
-    await expect(page.getByText("Total Price: 3.98¤")).toBeVisible();
+    const row = basketPage.row(PRODUCT);
+    await row.increase();
+    await expect(row.quantity).toHaveText("2");
+    await expect(basketPage.total("3.98¤")).toBeVisible();
 
-    // 2. Click the trash-alt (delete) button on the row, regardless of quantity.
-    await row.getByRole("cell").last().getByRole("button").click();
-    await expect(row).toHaveCount(0);
-    await expect(page.getByText("Total Price: 0¤")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Checkout" })).toBeDisabled();
-    await expect(cartButton).toContainText("0");
+    // 2. Delete the line: it goes whatever the quantity.
+    await row.remove();
+    await expect(row.row).toHaveCount(0);
+    await expect(basketPage.total("0¤")).toBeVisible();
+    await expect(basketPage.checkoutButton).toBeDisabled();
+    await expect(basketPage.cartButton).toContainText("0");
 
-    // 3. Reload the page on /#/basket.
+    // 3. Reload: the removal was saved.
     await page.reload();
     await expect(page).toHaveURL(/\/#\/basket$/);
-    await expect(row).toHaveCount(0);
-    await expect(page.getByText("Total Price: 0¤")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Checkout" })).toBeDisabled();
+    await expect(row.row).toHaveCount(0);
+    await expect(basketPage.total("0¤")).toBeVisible();
+    await expect(basketPage.checkoutButton).toBeDisabled();
   });
 });

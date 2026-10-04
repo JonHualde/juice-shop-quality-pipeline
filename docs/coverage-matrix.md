@@ -14,7 +14,8 @@ This matrix connects product promises to risks, automated checks, and evidence. 
 | Logout UI | A customer can return to an anonymous browser state | Authentication state remains visible after logout | E2E | Verify the account menu exposes `Login` after logout | `@e2e @critical @smoke` | Automated |
 | Account navigation | A customer can reach account capabilities | Account destinations are missing or unreachable | E2E | Verify order history and change-password routes with their visible page titles | `@e2e @regression` | Automated |
 | Catalog | A customer can discover purchasable products | No product can be found or selected | API + E2E | Define representative catalog contract and browser outcome | To classify | Risk analysis pending |
-| Basket | A customer can build an order | Products cannot be added, updated, or removed | API + E2E | Define basket contract and critical browser journey | To classify | Risk analysis pending |
+| Basket | A customer can build an order | Products cannot be added, updated, or removed | E2E | Add a product (badge, row, price, total, checkout enabled), change its quantity (totals, persisted after reload), remove it (empty basket, checkout disabled, persisted). Plan: `specs/basket.md`, written with the Playwright test agents | `@e2e @critical` (add, remove) `@e2e @regression` (quantity) | Automated |
+| Basket API | The basket contract holds without the UI | API changes break the basket silently | API | Define basket contract | To classify | Risk analysis pending |
 | Checkout | A customer can submit an order | The purchase journey cannot be completed | API + E2E | Define checkout and order-confirmation evidence | To classify | Risk analysis pending |
 
 ## Status Definitions

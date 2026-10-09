@@ -4,7 +4,7 @@ test.describe("Account navigation", () => {
   test.beforeEach(
     async ({ loginPage, registeredUser, startupDialogs }) => {
       await loginPage.goto();
-      await startupDialogs.dismissIfVisible();
+      await startupDialogs.dismissAll();
       await loginPage.signIn(registeredUser);
     },
   );

@@ -19,7 +19,7 @@ Build a release confidence system that combines:
 - OWASP Juice Shop runs locally from a pinned Docker image.
 - The Postman collection creates isolated test data before validating authentication and authorization contracts.
 - API result: 7 requests, 27 assertions, 0 failures.
-- E2E result: 4 Playwright tests covering authentication, logout, invalid credentials, and account navigation.
+- E2E result: 8 Playwright tests covering authentication, logout, invalid credentials, account navigation and the basket (add, change quantity, remove), plus the agents' seed.
 - Playwright fixtures create a registered user per test and provide reusable page objects and UI components.
 - GitHub Actions runs API and E2E quality gates in parallel with manual suite selection and retained artifacts.
 
@@ -47,7 +47,13 @@ Local Playwright setup reads `BASE_URL`, `SECURITY_QUESTION`, and `SECURITY_QUES
 | `npm run test:e2e:headed` | Run E2E tests with a visible browser |
 | `npm run report:e2e` | Open the latest Playwright HTML report |
 
+## AI-Assisted Test Writing
+
+The Playwright test agents (planner, generator, healer) run in Claude Code against the local app: they plan scenarios, write specs and repair failing tests. Every agent output is committed as is, then reviewed in its own commit. CI runs the committed specs without any AI. See [AI workflow](docs/ai-workflow.md) for the loop and two worked examples.
+
 ## Documentation
+
+- [AI workflow](docs/ai-workflow.md)
 
 - [Test strategy](docs/test-strategy.md)
 - [Coverage matrix](docs/coverage-matrix.md)

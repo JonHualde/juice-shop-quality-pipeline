@@ -4,3 +4,4 @@ test-results/
 .env
 .DS_Store
 postman/environments/local-juice-shop.json
+.playwright-mcp/
